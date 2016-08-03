@@ -4,40 +4,42 @@
 
 (defonce viz (reagent/atom {:status "Loading" :vizobj nil}))
 
+;; Tableau API
 (def viz-url
-  "https://public.tableau.com/views/AirbnbSanFranciscoAnalysis/Airbnb")
+  "https://public.tableau.com/views/SuperGetData/CustomerSales")
 
 ; Hide things from the embedded viz
 (def viz-options
   (js-obj
     "hideTabs" true
     "hideToolbar" true
-    "onFirstInteractive" #(swap! viz assoc :status "Ready")))
+    "onFirstInteractive" #(swap! viz assoc :status "Ready to interact")))
 
-(swap! viz assoc :status "Initializing" :vizobj
+(swap! viz assoc :status "Initializing view..." :vizobj
        (js/tableau.Viz. (.getElementById js/document "tableau-div") viz-url viz-options))
 
+(defn get-sheet
+  "Get the `Sheet` object from the active sheet. Active sheet must be a `Dashboard`"
+  []
+  (-> (:vizobj @viz)
+      (.getWorkbook)
+      (.getActiveSheet)))
+
+;; UI 
 (defn modal-window-button []
   [:div.btn.btn-primary 
    {:on-click #(reagent-modals/modal! [:div "some message to the user!"])} 
    "Show underlying data"])
 
-(defn home []
+(defn get-data-component []
   [:div
    [:p (:status @viz)]
    [reagent-modals/modal-window]
-   ;; ATTNETION \/
-   [modal-window-button]
-   ;; ATTENTION /\
-   ])
+   [modal-window-button]])
 
-
-(defn tableau-component []
-  [:div 
-		[home]])
 
 (defn init []
-  (reagent/render-component [tableau-component]
+  (reagent/render-component [get-data-component]
                             (.getElementById js/document "container")))
 
 
