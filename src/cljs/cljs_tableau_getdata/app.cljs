@@ -36,11 +36,10 @@
    [reagent-modals/close-button]
    [:table#data-table.table.table-striped.table-bordered.nowrap
     {:cell-spacing "0" :width "100%"}
-
     [:thead
      (reduce (fn [res col] (conj res (vector :th (.getFieldName col)))) [:tr] (:columns @viz))]
 
-    ; tbody
+    ; tbody, reduce from [[{formattedValue: val]] to [:tbody [:tr [:td val1] [:td val2]]]
     (reduce (fn [res row] 
               (conj res 
                     (reduce 
@@ -51,9 +50,7 @@
             (js->clj (:data @viz)))]])
 
 (defn modal-did-mount [this]
-  (.DataTable (js/$ (.getElementById js/document "data-table"))
-              ))
-
+  (.DataTable (js/$ (.getElementById js/document "data-table"))))
 
 (defn modal []
   (reagent/create-class {:reagent-render modal-render
@@ -73,12 +70,13 @@
 
 (defn get-data-component []
   [:div.form-horizontal {:style {:margin "10px"}}
-   [:p "Select customers to see their summary or underlying data in tabular format"]
+   [:p "Select customers to see their summary or underlying data in tabular format."]
+   [:p [:a {:href "https://git.io/v6YOK"} "Source code"] " is less than 100 lines."]
    [:div.form-group
     [:label "Number of rows to show"] 
     [:div.col-xs-2
      [:input#num-rows.form-control 
-      {:type "text" 
+      {:type "number" :min 0 :step 1 
        :value (:maxRows @viz)  
        :on-change #(swap! viz assoc :maxRows (.-target.value %))} ]]]
    [:div.form-group
