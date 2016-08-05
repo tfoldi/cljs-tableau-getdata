@@ -73,14 +73,14 @@
    [:p "Select customers to see their summary or underlying data in tabular format."]
    [:p [:a {:href "https://git.io/v6YOK"} "Source code"] " is less than 100 lines."]
    [:div.form-group
-    [:label "Number of rows to show"] 
+    [:label.col-xs-2 "Number of rows to show"] 
     [:div.col-xs-2
      [:input#num-rows.form-control 
       {:type "number" :min 0 :step 1 
        :value (:maxRows @viz)  
        :on-change #(swap! viz assoc :maxRows (.-target.value %))} ]]]
    [:div.form-group
-    [:label {:for "all-cols"} "Show all columns"]
+    [:label.col-xs-2 {:for "all-cols"} "Show all columns"]
     [:div.col-xs-2
      [:input#all-cols.toggle.form-control 
       {:type "checkbox"
