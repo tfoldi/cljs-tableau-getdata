@@ -91,9 +91,7 @@
 (defn underlying-button []
   [:div.btn.btn-primary
    {:disabled (not (:ready @viz))
-    :on-click (fn []
-                (set! (.-viz js/window) (:vizobj @viz))
-                (get-data-and-show-modal! #(.getUnderlyingDataAsync %1 %2)))}
+    :on-click (fn [] (get-data-and-show-modal! #(.getUnderlyingDataAsync %1 %2)))}
    "Show underlying data"])
 
 (defn summary-button []
