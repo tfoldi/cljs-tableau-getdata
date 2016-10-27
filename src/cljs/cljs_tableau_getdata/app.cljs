@@ -27,9 +27,12 @@
 (defonce viz (reagent/atom {:maxRows 100 :includeAllColumns false}))
 (declare modal)
 
+(def url-args (:query (url (-> js/window .-location .-href))))
+
+
 ;; Tableau API
 (def viz-url
-  (or (get (:query (url (-> js/window .-location .-href))) "viz")
+  (or (get url-args "viz")
       "https://public.tableau.com/views/SuperGetData/CustomerSales"))
 
 (js/console.log "Using viz url: " (pr-str viz-url))
@@ -39,8 +42,8 @@
   (js-obj
     "hideTabs" true
     "hideToolbar" true
-    "height" "500px"
-    "width" "500px"
+    "height" (str (or (get url-args "height") 500) "px")
+    "width" (str (or (get url-args "width") 500) "px")
     "onFirstInteractive" #(swap! viz assoc :ready true)))
 
 (swap! viz assoc :ready false :vizobj
