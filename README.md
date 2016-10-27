@@ -27,3 +27,26 @@ example:
 ```
 http://localhost:3000/?width=900&height=200&viz=https://public.tableau.com/views/SuperGetData/CustomerSales
 ```
+
+# Building and development
+
+## Development
+
+Run
+
+```
+boot run
+```
+
+to start an auto-reloading web server + clojurescript compiler.
+
+# Building for production
+
+Run
+
+```
+boot.exe cljs -sO advanced -- target
+```
+
+to generate a compiled down javascript code into the `target` folder.
+
