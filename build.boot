@@ -10,7 +10,8 @@
                  [weasel                    "0.7.0"      :scope "test"]
                  [org.clojure/clojurescript "1.7.228"]
                  [reagent "0.5.0"]
-                 [org.clojars.frozenlock/reagent-modals "0.2.5"]])
+                 [org.clojars.frozenlock/reagent-modals "0.2.5"]
+                 [com.cemerick/url "0.1.1"]])
 
 (require
  '[adzerk.boot-cljs      :refer [cljs]]
